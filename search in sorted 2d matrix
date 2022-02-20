@@ -1,0 +1,45 @@
+https://leetcode.com/problems/search-a-2d-matrix/
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        
+        int rowl = 0;
+        int rowr = n-1;
+        int coll = 0;
+        int colr = m-1;
+        int row = -1;
+        while(rowl<=rowr){
+            int midr = (rowl+rowr)/2;
+            
+            if(matrix[midr][coll]<= target and matrix[midr][colr]>=target){
+                row = midr;
+                break;
+            }
+            else if(matrix[midr][coll]>target){
+                rowr = midr-1;
+            }
+            else{
+                rowl = midr+1;
+            }
+        }
+        if(row==-1){
+            return false;
+        }
+        while(coll<=colr){
+            int midc = (coll+colr)/2;
+            if(matrix[row][midc]==target){
+                return true;
+            }
+            else if(matrix[row][midc]>target){
+                colr = midc-1;
+            }
+            else{
+                coll = midc+1;
+            }
+        }
+        return false;
+    }
+};

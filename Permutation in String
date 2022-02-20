@@ -1,0 +1,44 @@
+https://leetcode.com/problems/permutation-in-string/
+
+class Solution {
+public:
+    bool checkSeq(vector<char> &seq1, vector<char> &seq2){
+        for(int i=0;i<26;i++){
+            if(seq1[i]!=seq2[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+    bool checkInclusion(string s1, string s2) {
+        int n1 = s1.size();
+        int n2 = s2.size();
+        if(n1>n2){
+            return false;
+        }
+        vector<char> seq1(26);
+        vector<char> seq2(26);
+        for(int i=0;i<n1;i++){
+            seq1[s1[i]-'a']++;
+        }
+        for(int i=0;i<n1;i++){
+            seq2[s2[i]-'a']++;
+        }
+        int i=0;
+        int j=n1-1;
+        while(j<n2){
+            if(checkSeq(seq1,seq2)){
+                return true;
+            }
+            else if(j==n2-1){
+                break;
+            }
+            seq2[s2[i]-'a']--;
+            i++;
+            j++;
+            seq2[s2[j]-'a']++;            
+        }
+        return false;
+        
+    }
+};

@@ -1,0 +1,44 @@
+https://leetcode.com/problems/string-compression/
+
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        int n = chars.size();
+        if(n==1){
+            return 1;
+        }
+        char curGroup = chars[0];
+        int curCount = 1;
+        int ptr = 0;
+        int ans = 0;
+        for(int i=1;i<n;i++){
+            if(chars[i]==curGroup){
+                curCount++;
+            }
+            else{
+                if(curCount==1){
+                    ans++;
+                    chars[ptr++] = curGroup;
+                }
+                else{
+                    cout<<to_string(curCount)<<endl;
+                    ans+= to_string(curCount).size()+1;
+                    chars[ptr++] = curGroup;
+                    for(auto l:to_string(curCount)){
+                        chars[ptr++] = l;
+                    }
+                    
+                }
+                curCount = 1;
+                curGroup = chars[i];
+            }
+        }
+        ans+= (curCount==1) ? 1:to_string(curCount).size()+1;
+        chars[ptr++] = curGroup;
+        for(auto l:to_string(curCount)){
+            chars[ptr++] = l;
+        }
+        cout<<ans<<endl;
+        return ans;
+    }
+};

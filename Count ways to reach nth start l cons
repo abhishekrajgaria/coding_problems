@@ -1,0 +1,41 @@
+https://www.codingninjas.com/codestudio/problems/count-ways-to-reach-nth-stairs_798650
+
+
+#define ll long long
+
+ll m = 1000000007;
+vector<vector<ll>> matMul(vector<vector<ll>> &A,vector<vector<ll>> &B){
+    vector<vector<ll>> mul = {{0,0},{0,0}};
+    for(int i=0;i<2;i++){
+        for(int j=0;j<2;j++){
+            for(int k =0;k<2;k++){
+                mul[i][j] = (mul[i][j]%m+(A[i][k]*B[k][j])%m)%m;
+            }
+        }
+    }
+    return mul;
+}
+vector<vector<ll>> matExp(vector<vector<ll>> &T,ll n){
+    if(n==0){
+        return {{1LL*1,1LL*0},{1LL*0,1LL*1}};
+    }
+    vector<vector<ll>> res = matExp(T,n/2);
+    res = matMul(res,res);
+    if(n&1){
+        return matMul(res,T);
+    }
+    return res;
+}
+
+int countDistinctWayToClimbStair(long long nStairs)
+{
+    
+    if(nStairs<2){
+        return 1;
+    }
+    vector<int> F1 = {1,1};
+    vector<vector<ll>> T = {{0,1},{1,1}};
+    T = matExp(T,nStairs-2);
+    vector<int> Fn = {(T[0][0]+T[0][1])%m,(T[1][0]+T[1][1])%m};
+    return (Fn[0]+Fn[1])%m;
+}
